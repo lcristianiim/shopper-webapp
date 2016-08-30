@@ -7,5 +7,4 @@ node_modules
 .classpath
 .project
 .springBeans
-.settings
 target
