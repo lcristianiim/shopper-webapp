@@ -9,4 +9,5 @@ node_modules
 .project
 .springBeans
 .settings
+.idea
 target
