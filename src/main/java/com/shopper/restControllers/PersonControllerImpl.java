@@ -23,8 +23,8 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    public ResponseEntity savePerson(@RequestBody Person person) {
-        Person addedperson = personService.save(person);
-        return ResponseEntity.ok().body(addedperson);
+    public ResponseEntity savePerson(@RequestBody List<Person> persons) {
+        List<Person> addedPersons = personService.save(persons);
+        return ResponseEntity.ok().body(addedPersons);
     }
 }

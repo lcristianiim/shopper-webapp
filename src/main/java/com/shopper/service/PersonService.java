@@ -5,6 +5,7 @@ import com.shopper.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +16,15 @@ public class PersonService {
     @Autowired
     private PersonRepo repo;
 
-    public Person save(Person person) {
-            return repo.save(person);
+    public List<Person> save(List<Person> persons) {
+        List<Person> addedPersons = new ArrayList<>();
+
+        for (int i = 0; i < persons.size(); i++) {
+            repo.save(persons.get(i));
+            addedPersons.add(persons.get(i));
+        }
+
+        return addedPersons;
     }
 
     public Iterable<Person> findAll() {

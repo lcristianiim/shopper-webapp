@@ -19,5 +19,5 @@ public interface PersonController {
     ResponseEntity getPersons();
 
     @RequestMapping(value = "persons", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    ResponseEntity savePerson(Person person);
+    ResponseEntity savePerson(List <Person> persons);
 }
