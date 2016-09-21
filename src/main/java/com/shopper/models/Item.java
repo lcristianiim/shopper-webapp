@@ -22,7 +22,14 @@ public class Item {
     @GeneratedValue
     private int id;
     private double price;
-    private int category;
     private String details;
+    private int category;
     private long time;
+
+    public Item(double price, String details, int category, long time) {
+        this.price = price;
+        this.details = details;
+        this.category = category;
+        this.time = time;
+    }
 }

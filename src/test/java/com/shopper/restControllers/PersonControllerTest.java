@@ -2,6 +2,7 @@ package com.shopper.restControllers;
 
 import com.google.gson.Gson;
 import com.shopper.ShoppingApplication;
+import com.shopper.models.Item;
 import com.shopper.models.Person;
 import com.shopper.service.PersonService;
 import org.junit.After;
@@ -57,8 +58,19 @@ public class PersonControllerTest {
         Person person1 = new Person("Cristian");
         Person person2 = new Person("Brighita");
 
+        Item item = new Item(100, "Alimentare motorina", 9, 1234);
+        Item item1 = new Item(100, "Alimentare motorina 2", 9, 5678);
+        Item item2 = new Item(160, "Cumparaturi Kaufland", 1, 9101);
+        Item item3 = new Item(200, "Cumparaturi Real", 1, 2345);
+
         this.persons.add(person1);
         this.persons.add(person2);
+
+        person1.getItems().add(item);
+        person1.getItems().add(item1);
+        person1.getItems().add(item2);
+
+        person2.getItems().add(item3);
 
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -93,5 +105,39 @@ public class PersonControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getPersonsItems() throws Exception {
+        for (Person person : persons) {
+            personService.save(persons);
+        }
+
+        String stringPath = "/" + persons.get(0).getName() + "/items";
+
+        mockMvc.perform(get(stringPath)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+            .andDo(print())
+            .andExpect(jsonPath("$", hasSize(3)))
+            .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void savePersonsItem() throws Exception {
+        String stringPath = "/" + persons.get(0).getName() + "/items";
+
+        List<Item> itemList = new ArrayList<>();
+
+        itemList.add(persons.get(0).getItems().get(0));
+
+        mockMvc.perform(post("/Cristian/items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(persons.get(0).getItems().get(0)))
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)));
     }
 }
