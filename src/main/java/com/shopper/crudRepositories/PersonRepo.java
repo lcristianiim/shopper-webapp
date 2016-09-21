@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface PersonRepo extends CrudRepository<Person, Long> {
     @Query("select a from Person a where a.name = :name")
-    List<Person> findByName(@Param("name") String name);
+    Person findByName(@Param("name") String name);
 }
