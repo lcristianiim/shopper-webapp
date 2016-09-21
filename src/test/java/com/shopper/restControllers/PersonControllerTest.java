@@ -38,6 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShoppingApplication.class)
 public class PersonControllerTest {
+
     @Autowired
     private PersonService personService;
 
@@ -76,6 +77,21 @@ public class PersonControllerTest {
                 .content(gson.toJson(persons))
         )
                 .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void getPersons() throws Exception {
+        for (Person person : persons) {
+            personService.save(persons);
+        }
+
+        mockMvc.perform(get("/persons")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(status().isOk());
     }
 }
