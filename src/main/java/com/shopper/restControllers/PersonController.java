@@ -1,5 +1,6 @@
 package com.shopper.restControllers;
 
+import com.shopper.models.Item;
 import com.shopper.models.Person;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,4 +21,10 @@ public interface PersonController {
 
     @RequestMapping(value = "persons", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     ResponseEntity savePerson(List <Person> persons);
+
+    @RequestMapping(value = "{personName}/items", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+    ResponseEntity getPersonsItems(String personName);
+
+    @RequestMapping(value = "{personName}/items", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    ResponseEntity savePersonsItem(String personName, List <Item> items);
 }
