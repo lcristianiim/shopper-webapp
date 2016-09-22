@@ -2,6 +2,7 @@ package com.shopper.restControllers;
 
 import com.google.gson.Gson;
 import com.shopper.ShoppingApplication;
+import com.shopper.crudRepositories.PersonRepo;
 import com.shopper.models.Item;
 import com.shopper.models.Person;
 import com.shopper.service.PersonService;
@@ -20,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.ws.rs.core.MediaType;
 
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,6 +55,7 @@ public class PersonControllerTest {
     private WebApplicationContext context;
 
     private List<Person> persons = new ArrayList<>();
+    private PersonRepo personRepo;
 
     @Before
     public void setUp() throws Exception {
@@ -123,21 +127,24 @@ public class PersonControllerTest {
             .andExpect(status().isOk());
     }
 
-
     @Test
     public void savePersonsItem() throws Exception {
-        String stringPath = "/" + persons.get(0).getName() + "/items";
+
+        personService.save(persons);
 
         List<Item> itemList = new ArrayList<>();
 
-        itemList.add(persons.get(0).getItems().get(0));
+
+        Item itemTest = new Item(110, "Testing item", 2, 12345);
+        itemList.add(itemTest);
+
 
         mockMvc.perform(post("/Cristian/items")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(persons.get(0).getItems().get(0)))
+                .content(gson.toJson(itemList))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$.*", hasSize(3)));
     }
 }
