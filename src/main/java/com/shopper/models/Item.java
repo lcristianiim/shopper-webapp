@@ -3,12 +3,11 @@ package com.shopper.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by internship on 19.09.2016.
@@ -25,9 +24,11 @@ public class Item {
     private double price;
     private String details;
     private int category;
-    private Calendar time;
 
-    public Item(double price, String details, int category, Calendar time) {
+    @Temporal(TemporalType.DATE)
+    private Date time;
+
+    public Item(double price, String details, int category, Date time) {
         this.price = price;
         this.details = details;
         this.category = category;
