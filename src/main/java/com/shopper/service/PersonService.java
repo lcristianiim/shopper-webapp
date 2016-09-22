@@ -28,11 +28,6 @@ public class PersonService {
         return addedPersons;
     }
 
-    public Person save(Person person) {
-        repo.save(person);
-        return person;
-    }
-
     public Iterable<Person> findAll() {
         return repo.findAll();
     }
@@ -42,6 +37,7 @@ public class PersonService {
     }
 
     public Person saveItems(String personName, List<Item> items) {
+
         Person person = repo.findByName(personName);
         List<Item> personsItems = person.getItems();
 
