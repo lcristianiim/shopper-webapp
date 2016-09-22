@@ -6,6 +6,7 @@ import com.shopper.crudRepositories.PersonRepo;
 import com.shopper.models.Item;
 import com.shopper.models.Person;
 import com.shopper.service.PersonService;
+import org.h2.util.DateTimeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,10 +65,17 @@ public class PersonControllerTest {
         Person person1 = new Person("Cristian");
         Person person2 = new Person("Brighita");
 
-        Item item = new Item(100, "Alimentare motorina", 9, 1234);
-        Item item1 = new Item(100, "Alimentare motorina 2", 9, 5678);
-        Item item2 = new Item(160, "Cumparaturi Kaufland", 1, 9101);
-        Item item3 = new Item(200, "Cumparaturi Real", 1, 2345);
+        Calendar time = Calendar.getInstance();
+        Calendar time2;
+
+
+        Item item = new Item(100, "Alimentare motorina", 9, time);
+        time.add(Calendar.MINUTE, 1);
+        Item item1 = new Item(100, "Alimentare motorina 2", 9, time);
+        time.add(Calendar.MINUTE, 1);
+        Item item2 = new Item(160, "Cumparaturi Kaufland", 1, time);
+        time.add(Calendar.MINUTE, 1);
+        Item item3 = new Item(200, "Cumparaturi Real", 1, time);
 
         this.persons.add(person1);
         this.persons.add(person2);
@@ -134,8 +144,9 @@ public class PersonControllerTest {
 
         List<Item> itemList = new ArrayList<>();
 
+        Calendar time = Calendar.getInstance();
 
-        Item itemTest = new Item(110, "Testing item", 2, 12345);
+        Item itemTest = new Item(110, "Testing item", 2, time);
         itemList.add(itemTest);
 
 
