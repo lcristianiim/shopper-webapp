@@ -1,6 +1,6 @@
 package com.shopper.restControllers;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopper.ShoppingApplication;
 import com.shopper.crudRepositories.PersonRepo;
 import com.shopper.helpers.LocalDateTimeAttributeConverter;
@@ -13,12 +13,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.ws.rs.core.MediaType;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,11 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by internship on 19.09.2016.
@@ -47,7 +46,7 @@ public class PersonControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private Gson gson;
+    private ObjectMapper gson;
 
     @Autowired
     private WebApplicationContext context;
@@ -88,7 +87,7 @@ public class PersonControllerTest {
     public void savePerson() throws Exception {
         mockMvc.perform(post("/persons")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(persons))
+                .content(gson.writeValueAsString(persons))
         )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -131,7 +130,7 @@ public class PersonControllerTest {
         personService.save(persons);
 
         LocalDateTime time = LocalDateTime.now();
-        Date date = new Date();
+
 
         List<Item> itemList = new ArrayList<>();
         Item itemTest = new Item(110, "Testing item", 2, time);
@@ -139,9 +138,12 @@ public class PersonControllerTest {
         itemList.add(itemTest);
 
 
+        String content = gson.writeValueAsString(itemList);
+        System.out.println(content);
+
         mockMvc.perform(post("/Cristian/items")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(itemList))
+                .content(content)
         )
                 .andDo(print())
                 .andExpect(status().isOk())
