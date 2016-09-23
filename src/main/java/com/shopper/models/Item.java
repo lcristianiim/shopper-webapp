@@ -3,9 +3,14 @@ package com.shopper.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,10 +30,9 @@ public class Item {
     private String details;
     private int category;
 
-    @Temporal(TemporalType.DATE)
-    private Date time;
+    private LocalDateTime time;
 
-    public Item(double price, String details, int category, Date time) {
+    public Item(double price, String details, int category, LocalDateTime time) {
         this.price = price;
         this.details = details;
         this.category = category;

@@ -44,6 +44,7 @@ public class PersonService {
         for (int i = 0; i < items.size(); i++) {
             person.getItems().add(items.get(i));
         }
+        person.setItems(personsItems);
         repo.save(person);
         return person;
     }

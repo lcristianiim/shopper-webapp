@@ -1,4 +1,6 @@
-package com.shopper.restControllers;
+package com.shopper.helpers;
+
+import lombok.NoArgsConstructor;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

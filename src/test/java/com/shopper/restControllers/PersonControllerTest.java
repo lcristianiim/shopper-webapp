@@ -3,26 +3,23 @@ package com.shopper.restControllers;
 import com.google.gson.Gson;
 import com.shopper.ShoppingApplication;
 import com.shopper.crudRepositories.PersonRepo;
+import com.shopper.helpers.LocalDateTimeAttributeConverter;
 import com.shopper.models.Item;
 import com.shopper.models.Person;
 import com.shopper.service.PersonService;
-import org.h2.util.DateTimeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.ws.rs.core.MediaType;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,14 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Created by internship on 19.09.2016.
@@ -135,9 +130,12 @@ public class PersonControllerTest {
 
         personService.save(persons);
 
-        List<Item> itemList = new ArrayList<>();
+        LocalDateTime time = LocalDateTime.now();
+        Date date = new Date();
 
-        Item itemTest = new Item(110, "Testing item", 2, null);
+        List<Item> itemList = new ArrayList<>();
+        Item itemTest = new Item(110, "Testing item", 2, time);
+
         itemList.add(itemTest);
 
 
