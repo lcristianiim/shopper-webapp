@@ -3,11 +3,16 @@ package com.shopper.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by internship on 19.09.2016.
@@ -24,9 +29,10 @@ public class Item {
     private double price;
     private String details;
     private int category;
-    private long time;
 
-    public Item(double price, String details, int category, long time) {
+    private LocalDateTime time;
+
+    public Item(double price, String details, int category, LocalDateTime time) {
         this.price = price;
         this.details = details;
         this.category = category;
